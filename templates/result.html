@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detection Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 400px;
+            border-radius: 10px;
+            border: 3px solid #3498db;
+        }
+        .buttons {
+            margin-top: 30px;
+        }
+        a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0 10px;
+        }
+        a.button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detection Result</h1>
+        <p class="result"><strong>Result:</strong> {{ result }}</p>
+        <img src="{{ url_for('static', filename='uploads/' ~ image) }}" alt="Uploaded Image">
+        <div class="buttons">
+            <a class="button" href="{{ url_for('upload_file') }}">Try Another Image</a>
+            <a class="button" href="{{ url_for('realtime_page') }}">Real-Time Detection</a>
+        </div>
+    </div>
+</body>
+</html>
