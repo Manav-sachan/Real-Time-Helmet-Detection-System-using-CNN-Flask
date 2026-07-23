@@ -8,9 +8,9 @@ import cv2
 from flask import Flask, request, render_template, Response
 from werkzeug.utils import secure_filename
 import os
-import atexit  # For exit handler
+import atexit  
 
-# === Configuration ===
+
 DATASET_DIR = "dataset"
 MODEL_PATH = "keras_model.h5"
 UPLOAD_FOLDER = 'static/uploads'
@@ -19,11 +19,11 @@ IMG_HEIGHT, IMG_WIDTH = 224, 224
 BATCH_SIZE = 32
 EPOCHS = 100
 
-# === Global counters for accuracy ===
+
 total_predictions = 0
 correct_predictions = 0
 
-# === Exit handler to report overall accuracy ===
+
 def report_final_accuracy():
     if total_predictions > 0:
         accuracy = (correct_predictions / total_predictions) * 100
@@ -36,7 +36,7 @@ def report_final_accuracy():
 
 atexit.register(report_final_accuracy)
 
-# === Train Model Function ===
+
 def train_model():
     print("⚙️ Starting model training...")
 
@@ -113,12 +113,12 @@ def train_model():
     print(f"✅ Model saved to {MODEL_PATH}")
     return model, train_gen.class_indices
 
-# === Flask App Setup ===
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# === Load or Train Model ===
+
 if os.path.exists(MODEL_PATH):
     print("🚀 Loading existing model...")
     model = tf.keras.models.load_model(MODEL_PATH)
@@ -154,7 +154,7 @@ def gen_frames():
             label = "Wearing Helmet" if pred > 0.5 else "Not Wearing Helmet"
             color = (0, 255, 0) if pred > 0.5 else (0, 0, 255)
 
-            # For video, assume prediction is correct (no ground truth)
+           
             total_predictions += 1
             correct_predictions += 1
 
@@ -171,7 +171,7 @@ def gen_frames():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     cap.release()
 
-# === Flask Routes ===
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     global total_predictions, correct_predictions
@@ -199,7 +199,7 @@ def upload_file():
                 predicted_label = "Not Wearing Helmet"
                 confidence = 1 - prediction
 
-            # Extract actual label from filename heuristics
+          
             lower_name = filename.lower()
             if "nohelmet" in lower_name or "notwearing" in lower_name:
                 actual_label = "Not Wearing Helmet"
